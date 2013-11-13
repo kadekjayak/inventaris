@@ -1,4 +1,5 @@
 <?php 
+if(isset($_COOKIE['nip'])) {
 	include 'view/menu.inc';
     $menu[2]['class']='active';
 	$pdata=array(
@@ -65,4 +66,7 @@
     
     $t=makePage($pdata,'main.php');
     echo $t;
+} else {
+    include 'login.php';   
+}
 ?>

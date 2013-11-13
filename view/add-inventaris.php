@@ -1,5 +1,5 @@
 <?php 
-if(isset($_COOKIE['nip'])) {
+
 	include 'view/menu.inc';
     $menu[0]['class']='active';
 	$pdata=array(
@@ -10,7 +10,7 @@ if(isset($_COOKIE['nip'])) {
         'menu'=>makeMenu($menu),
         'content'=>''
     );
-
+if(isset($_COOKIE['nip'])) {
     $sql="SELECT id_jenis,nama_jenis from jenis_inventaris";
     $result=mysqli_query($link,$sql);
     $id_jenis=array();
@@ -76,10 +76,10 @@ if(isset($_COOKIE['nip'])) {
     $pdata['content'].=makeForm($form);
     $pdata['content'].=makePagination($rowCount,$page);
     
+    
+} else {
+    $pdata['alert'].=makeAlert("Only Loged In user can perform this operation",'warning');   
+}
     $t=makePage($pdata,'main.php');
     echo $t;
-} else {
-    include 'login.php';   
-}
-    
 ?>
