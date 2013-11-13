@@ -20,4 +20,9 @@ $menu[]=array(
         'link'=>'?view=pinjam',
         'class'=>''
     );
+$menu[]=array(
+        'title'=>'Log in',
+        'link'=>'?view=login',
+        'class'=>''
+    );
 ?>
