@@ -1,6 +1,6 @@
 <?php
 include 'view/menu.inc';
-    $menu[3]['class']='active';
+    $menu[4]['class']='active';
 	$pdata=array(
         'header'=>$header,
         'title'=>'Peminjaman',
@@ -10,6 +10,7 @@ include 'view/menu.inc';
         'content'=>''
     );
     $v=GetDataPost();
+    if($_SERVER['REQUEST_METHOD']=='GET') $url=$_SERVER['HTTP_REFERER'];
 
 if($_SERVER['REQUEST_METHOD']=='POST') {
     if(isset($_POST['nip']) && isset($_POST['password'])){
@@ -20,7 +21,8 @@ if($_SERVER['REQUEST_METHOD']=='POST') {
             $r=mysqli_fetch_row($result);
             setcookie('nip',$r[0],time()+(60*60));
             setcookie('user',$r[1],time()+(60*60));
-            $pdata['alert'].=makeAlert('Login Success');   
+            $pdata['alert'].=makeAlert('Login Success');
+            header("Location: $url");
         } else {
             $pdata['alert'].=makeAlert('Invalid Login infomation','danger');   
         }
@@ -48,14 +50,14 @@ $form=array(
         2=>array(
 		'type'=>'hidden',
         'name'=>'url',
-        'value'=>isset($v['url']) ? $v['url'] : ''
+        'value'=>isset($v['url']) ? $v['url'] : $url
 		) 
 		
 	);
 $pform=makeForm($form);
 $pdata['content']='
     <div class="row center-block">
-        <div class="col-md-4 col-md-offset-4">
+        <div class="col-md-5 col-md-offset-4">
             <div class="panel panel-default">
               <div class="panel-heading">
                Sign In
