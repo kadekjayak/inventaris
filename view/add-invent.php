@@ -1,0 +1,12 @@
+<?php
+    $form=array(
+		0=>array(
+		'title'=>'id_invent',
+		'type'=>'text',
+		),
+		1=>array(
+		'title'=>'jenis_invent',
+		'type'=>'text',
+		)
+	);
+?>

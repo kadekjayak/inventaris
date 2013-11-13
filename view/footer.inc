@@ -1,0 +1,1 @@
+<center>Copyright Kadekjayak</center
