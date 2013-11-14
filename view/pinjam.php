@@ -30,7 +30,8 @@
         'nip'=>'NIP'
     );
     
-    $sql="SELECT ".implode(',',array_keys($table))." FROM pinjam "; //Base Query
+    $sql="SELECT ".implode(',',array_keys($table)).",(SELECT COUNT(*) FROM pinjam_detail WHERE pinjam.no_pinjam=pinjam_detail.no_pinjam)
+    FROM pinjam "; //Base Query
     
     $sql.=!empty($search) ? " WHERE $search LIKE '%$q%'": '';
     
@@ -77,8 +78,10 @@
     while ($row=mysqli_fetch_row($result)) $ot[]=array('<a href=?view=add-pinjam&action=edit&id='.$row[0].'>'.$row[0].'</a>',
                                                        $row[1],
                                                        '<a href="?view=pegawai&search=nip&q='.$row[2].'">'.$row[2].'</a>',
+                                                       $row[3],
                                                       '<a href="'.$uri.'&action=delete&id='.$row[0].'">Delete</a> | <a href="?view=pinjam-detail&id='.$row[0].'">Detail</a>');
     $tableHead=array_values($table);
+    $tableHead[]='Count';
     $tableHead[]='Action';
     $pdata['content'].=makeForm($form,'get','form-inline');
     $pdata['content'].=makeTable($ot,$tableHead);
