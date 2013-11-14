@@ -3,7 +3,7 @@
 -- http://www.phpmyadmin.net
 --
 -- Host: 127.0.0.1
--- Generation Time: Nov 13, 2013 at 06:27 PM
+-- Generation Time: Nov 14, 2013 at 10:47 AM
 -- Server version: 5.5.27
 -- PHP Version: 5.4.7
 
@@ -17,311 +17,147 @@ SET time_zone = "+00:00";
 /*!40101 SET NAMES utf8 */;
 
 --
--- Database: `inventaris`
+-- Database: `dbinventaris`
 --
-CREATE DATABASE `inventaris` DEFAULT CHARACTER SET latin1 COLLATE latin1_swedish_ci;
-USE `inventaris`;
+CREATE DATABASE `dbinventaris` DEFAULT CHARACTER SET latin1 COLLATE latin1_swedish_ci;
+USE `dbinventaris`;
 
 -- --------------------------------------------------------
 
 --
--- Table structure for table `akses_user`
+-- Table structure for table `inventaris`
 --
 
-CREATE TABLE IF NOT EXISTS `akses_user` (
-  `user` varchar(15) COLLATE latin1_general_ci NOT NULL,
-  `group` varchar(50) COLLATE latin1_general_ci NOT NULL,
-  `r` char(1) COLLATE latin1_general_ci NOT NULL,
-  `w` char(1) COLLATE latin1_general_ci NOT NULL,
-  `x` char(1) COLLATE latin1_general_ci NOT NULL,
-  PRIMARY KEY (`user`,`group`),
-  KEY `akses_usergroup` (`group`),
-  KEY `akses_useruser` (`user`)
-) ENGINE=MyISAM DEFAULT CHARSET=latin1 COLLATE=latin1_general_ci;
+CREATE TABLE IF NOT EXISTS `inventaris` (
+  `no_inventaris` varchar(10) NOT NULL,
+  `id_jenis` varchar(10) DEFAULT NULL,
+  `kondisi` varchar(30) NOT NULL,
+  `tgl_registrasi` date NOT NULL,
+  PRIMARY KEY (`no_inventaris`),
+  KEY `id_jenis` (`id_jenis`)
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 --
--- Dumping data for table `akses_user`
+-- Dumping data for table `inventaris`
 --
 
-INSERT INTO `akses_user` (`user`, `group`, `r`, `w`, `x`) VALUES
-('tomx', 'admin', '1', '1', '1');
+INSERT INTO `inventaris` (`no_inventaris`, `id_jenis`, `kondisi`, `tgl_registrasi`) VALUES
+('INV111', 'JNS01', 'Bekas', '2013-12-12');
 
 -- --------------------------------------------------------
 
 --
--- Table structure for table `barang`
+-- Table structure for table `jenis_inventaris`
 --
 
-CREATE TABLE IF NOT EXISTS `barang` (
-  `no_barang` varchar(15) COLLATE latin1_general_ci NOT NULL,
-  `nama_barang` varchar(50) COLLATE latin1_general_ci NOT NULL,
-  `merk` varchar(35) COLLATE latin1_general_ci NOT NULL,
-  PRIMARY KEY (`no_barang`),
-  KEY `barangnomor_barang` (`no_barang`)
-) ENGINE=MyISAM DEFAULT CHARSET=latin1 COLLATE=latin1_general_ci;
+CREATE TABLE IF NOT EXISTS `jenis_inventaris` (
+  `id_jenis` varchar(10) NOT NULL,
+  `nama_jenis` varchar(50) NOT NULL,
+  `keterangan` varchar(50) NOT NULL,
+  PRIMARY KEY (`id_jenis`)
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 --
--- Dumping data for table `barang`
+-- Dumping data for table `jenis_inventaris`
 --
 
-INSERT INTO `barang` (`no_barang`, `nama_barang`, `merk`) VALUES
-('brg001', 'Meja (3 Susun  2 Laci)', 'Olimpyc'),
-('brg002', 'Kursi Plastik', 'Olimpyc'),
-('brg003', 'Kursi Plastik', 'Olimpyc'),
-('brg004', 'Al-Quran', 'Percetakan MUI');
+INSERT INTO `jenis_inventaris` (`id_jenis`, `nama_jenis`, `keterangan`) VALUES
+('JNS01', 'Meja', ' '),
+('JNS02', 'Kursi', '  '),
+('JNS11', 'Printer', '   '),
+('JNS12', 'Monitor', '    ');
 
 -- --------------------------------------------------------
 
 --
--- Table structure for table `group`
+-- Table structure for table `pegawai`
 --
 
-CREATE TABLE IF NOT EXISTS `group` (
-  `group` varchar(50) COLLATE latin1_general_ci NOT NULL,
-  PRIMARY KEY (`group`),
-  KEY `groupgroup` (`group`)
-) ENGINE=MyISAM DEFAULT CHARSET=latin1 COLLATE=latin1_general_ci;
+CREATE TABLE IF NOT EXISTS `pegawai` (
+  `NIP` varchar(10) NOT NULL,
+  `nama` varchar(50) NOT NULL,
+  `alamat` varchar(100) NOT NULL,
+  `no_telp` varchar(20) NOT NULL,
+  `password` varchar(20) NOT NULL,
+  PRIMARY KEY (`NIP`)
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 --
--- Dumping data for table `group`
+-- Dumping data for table `pegawai`
 --
 
-INSERT INTO `group` (`group`) VALUES
-('Dapur'),
-('Gudang'),
-('Laboratorium'),
-('Mushalla'),
-('Ruang Administrasi'),
-('Ruang Asisten Mahasiswa'),
-('Ruang BSO Mahasiswa'),
-('Ruang Diskusi'),
-('Ruang Dosen'),
-('Ruang Kuliah'),
-('Ruang Pertemuan'),
-('Ruang Pimpinan'),
-('Ruang Skills Lab'),
-('Ruang Unit Fakultas'),
-('Toilet');
+INSERT INTO `pegawai` (`NIP`, `nama`, `alamat`, `no_telp`, `password`) VALUES
+('12312', 'asdfasd', 'sadf', 'asd', ''),
+('123456', 'Jack', 'JL3', '08113854799', '');
 
 -- --------------------------------------------------------
 
 --
--- Table structure for table `prasarana_listrik`
+-- Table structure for table `pinjam`
 --
 
-CREATE TABLE IF NOT EXISTS `prasarana_listrik` (
-  `id_listrik` varchar(15) COLLATE latin1_general_ci NOT NULL,
-  `jenis_lampu` varchar(35) COLLATE latin1_general_ci NOT NULL,
-  `watt_lampu` smallint(50) NOT NULL,
-  PRIMARY KEY (`id_listrik`),
-  KEY `prasarana_listrikkode_sarana` (`id_listrik`)
-) ENGINE=MyISAM DEFAULT CHARSET=latin1 COLLATE=latin1_general_ci;
+CREATE TABLE IF NOT EXISTS `pinjam` (
+  `no_pinjam` int(11) NOT NULL AUTO_INCREMENT,
+  `tgl_pinjam` date NOT NULL,
+  `NIP` varchar(10) DEFAULT NULL,
+  PRIMARY KEY (`no_pinjam`),
+  KEY `NIP` (`NIP`)
+) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=11 ;
 
 --
--- Dumping data for table `prasarana_listrik`
+-- Dumping data for table `pinjam`
 --
 
-INSERT INTO `prasarana_listrik` (`id_listrik`, `jenis_lampu`, `watt_lampu`) VALUES
-('lst001', 'Osram Bohlam Putih', 90),
-('lst002', 'Lampu Philips', 45);
+INSERT INTO `pinjam` (`no_pinjam`, `tgl_pinjam`, `NIP`) VALUES
+(10, '2013-11-13', '12312');
 
 -- --------------------------------------------------------
 
 --
--- Table structure for table `prasarana_telpon`
+-- Table structure for table `pinjam_detail`
 --
 
-CREATE TABLE IF NOT EXISTS `prasarana_telpon` (
-  `id_telp` varchar(15) COLLATE latin1_general_ci NOT NULL,
-  `jenis` varchar(35) COLLATE latin1_general_ci NOT NULL,
-  `merk` varchar(35) COLLATE latin1_general_ci NOT NULL,
-  PRIMARY KEY (`id_telp`),
-  KEY `id_telp` (`id_telp`)
-) ENGINE=MyISAM DEFAULT CHARSET=latin1 COLLATE=latin1_general_ci;
+CREATE TABLE IF NOT EXISTS `pinjam_detail` (
+  `no_detail` int(11) NOT NULL AUTO_INCREMENT,
+  `no_pinjam` int(11) NOT NULL,
+  `no_inventaris` varchar(10) NOT NULL,
+  `tgl_pinjam` date NOT NULL,
+  `tgl_kembali` date NOT NULL,
+  PRIMARY KEY (`no_detail`),
+  KEY `no_pinjam` (`no_pinjam`),
+  KEY `no_inventaris` (`no_inventaris`)
+) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=7 ;
 
 --
--- Dumping data for table `prasarana_telpon`
+-- Dumping data for table `pinjam_detail`
 --
 
-INSERT INTO `prasarana_telpon` (`id_telp`, `jenis`, `merk`) VALUES
-('tlp001', 'Telepon Rumah', 'Intersat'),
-('tlp002', 'Telepon Rumah Modern', 'Vsat'),
-('tlp003', 'Telepon Gengam Rumah', 'Telkom'),
-('tlp004', 'Telepon Flexi2', 'Telepon Flexi2'),
-('tlp005', 'Telpon Mini Flexi', 'Telkom Flexi');
-
--- --------------------------------------------------------
+INSERT INTO `pinjam_detail` (`no_detail`, `no_pinjam`, `no_inventaris`, `tgl_pinjam`, `tgl_kembali`) VALUES
+(5, 10, 'INV111', '2013-11-13', '2013-11-13'),
+(6, 10, 'INV111', '2013-11-13', '2013-11-13');
 
 --
--- Table structure for table `sarana`
+-- Constraints for dumped tables
 --
 
-CREATE TABLE IF NOT EXISTS `sarana` (
-  `kode_sarana` varchar(15) COLLATE latin1_general_ci NOT NULL,
-  `nama_gedung` varchar(40) COLLATE latin1_general_ci NOT NULL,
-  `no_lantai` smallint(6) NOT NULL,
-  `jenis` varchar(50) COLLATE latin1_general_ci NOT NULL,
-  `luas_ruangan` smallint(6) NOT NULL,
-  `tinggi_ruangan` smallint(6) NOT NULL,
-  `jumlah_pintu` smallint(6) NOT NULL,
-  `jumlah_jendela` smallint(6) NOT NULL,
-  PRIMARY KEY (`kode_sarana`),
-  KEY `saranagroup` (`jenis`),
-  KEY `saranakode_sarana` (`kode_sarana`)
-) ENGINE=MyISAM DEFAULT CHARSET=latin1 COLLATE=latin1_general_ci;
+--
+-- Constraints for table `inventaris`
+--
+ALTER TABLE `inventaris`
+  ADD CONSTRAINT `inventaris_ibfk_4` FOREIGN KEY (`id_jenis`) REFERENCES `jenis_inventaris` (`id_jenis`) ON DELETE NO ACTION ON UPDATE CASCADE;
 
 --
--- Dumping data for table `sarana`
+-- Constraints for table `pinjam`
 --
-
-INSERT INTO `sarana` (`kode_sarana`, `nama_gedung`, `no_lantai`, `jenis`, `luas_ruangan`, `tinggi_ruangan`, `jumlah_pintu`, `jumlah_jendela`) VALUES
-('srn001', 'ICT', 2, 'Lab Komputer', 30, 5, 3, 6),
-('srn002', 'Musholla Al-Alkbar', 1, 'Musholla', 10, 30, 4, 8);
-
--- --------------------------------------------------------
+ALTER TABLE `pinjam`
+  ADD CONSTRAINT `pinjam_ibfk_2` FOREIGN KEY (`NIP`) REFERENCES `pegawai` (`NIP`) ON DELETE SET NULL ON UPDATE CASCADE;
 
 --
--- Table structure for table `sarana_barang`
+-- Constraints for table `pinjam_detail`
 --
-
-CREATE TABLE IF NOT EXISTS `sarana_barang` (
-  `id` int(11) NOT NULL AUTO_INCREMENT,
-  `kode_sarana` varchar(15) COLLATE latin1_general_ci NOT NULL,
-  `no_barang` varchar(15) COLLATE latin1_general_ci NOT NULL,
-  `jumlah_baik` smallint(6) NOT NULL,
-  `jumlah_rusak` smallint(6) NOT NULL,
-  `dana_pengadaan` int(11) NOT NULL,
-  PRIMARY KEY (`id`),
-  KEY `sarana_barangkode_sarana` (`kode_sarana`),
-  KEY `sarana_barangnomor_barang` (`no_barang`)
-) ENGINE=MyISAM  DEFAULT CHARSET=latin1 COLLATE=latin1_general_ci AUTO_INCREMENT=4 ;
-
---
--- Dumping data for table `sarana_barang`
---
-
-INSERT INTO `sarana_barang` (`id`, `kode_sarana`, `no_barang`, `jumlah_baik`, `jumlah_rusak`, `dana_pengadaan`) VALUES
-(3, 'srn002', 'brg004', 20, 0, 1250000),
-(2, 'srn002', 'brg002', 15, 0, 800000);
-
--- --------------------------------------------------------
-
---
--- Table structure for table `sarana_internet`
---
-
-CREATE TABLE IF NOT EXISTS `sarana_internet` (
-  `id` int(11) NOT NULL AUTO_INCREMENT,
-  `kode_sarana` varchar(15) COLLATE latin1_general_ci NOT NULL,
-  `titik_koneksi` varchar(35) COLLATE latin1_general_ci NOT NULL,
-  `kondisi` set('Rusak','Baik') COLLATE latin1_general_ci NOT NULL DEFAULT 'Baik',
-  PRIMARY KEY (`id`),
-  KEY `prasarana_internetkode_sarana` (`kode_sarana`)
-) ENGINE=MyISAM  DEFAULT CHARSET=latin1 COLLATE=latin1_general_ci AUTO_INCREMENT=10 ;
-
---
--- Dumping data for table `sarana_internet`
---
-
-INSERT INTO `sarana_internet` (`id`, `kode_sarana`, `titik_koneksi`, `kondisi`) VALUES
-(8, 'srn002', 'Utara Masjid', 'Baik'),
-(9, 'srn002', 'Timur Masjid', 'Baik');
-
--- --------------------------------------------------------
-
---
--- Table structure for table `sarana_listrik`
---
-
-CREATE TABLE IF NOT EXISTS `sarana_listrik` (
-  `id` int(11) NOT NULL AUTO_INCREMENT,
-  `kode_sarana` varchar(15) COLLATE latin1_general_ci NOT NULL,
-  `id_listrik` varchar(15) COLLATE latin1_general_ci NOT NULL,
-  `kondisi` set('Baik','Rusak') COLLATE latin1_general_ci NOT NULL DEFAULT 'Baik',
-  PRIMARY KEY (`id`),
-  KEY `sarana_barangkode_sarana` (`kode_sarana`),
-  KEY `sarana_barangnomor_barang` (`id_listrik`)
-) ENGINE=MyISAM  DEFAULT CHARSET=latin1 COLLATE=latin1_general_ci AUTO_INCREMENT=15 ;
-
---
--- Dumping data for table `sarana_listrik`
---
-
-INSERT INTO `sarana_listrik` (`id`, `kode_sarana`, `id_listrik`, `kondisi`) VALUES
-(14, 'srn002', 'lst001', 'Baik'),
-(11, 'srn002', 'lst002', 'Baik');
-
--- --------------------------------------------------------
-
---
--- Table structure for table `sarana_pdam`
---
-
-CREATE TABLE IF NOT EXISTS `sarana_pdam` (
-  `id` int(11) NOT NULL AUTO_INCREMENT,
-  `kode_sarana` varchar(15) COLLATE latin1_general_ci NOT NULL,
-  `titik_kran` varchar(35) COLLATE latin1_general_ci NOT NULL,
-  `kondisi_saluran` set('Rusak','Baik') COLLATE latin1_general_ci NOT NULL DEFAULT 'Baik',
-  PRIMARY KEY (`id`),
-  KEY `prasarana_pdamkode_sarana` (`kode_sarana`)
-) ENGINE=MyISAM  DEFAULT CHARSET=latin1 COLLATE=latin1_general_ci AUTO_INCREMENT=6 ;
-
---
--- Dumping data for table `sarana_pdam`
---
-
-INSERT INTO `sarana_pdam` (`id`, `kode_sarana`, `titik_kran`, `kondisi_saluran`) VALUES
-(1, 'srn002', 'Kamar Mandi', 'Baik'),
-(2, 'srn002', 'Area Wudlu-I (Timur)', 'Baik'),
-(3, 'srn002', 'Kamar Mandi Depan', 'Rusak'),
-(4, 'srn002', 'Cuci Muka', 'Baik'),
-(5, 'srn002', 'Area Wudhu-II (Barat)', 'Baik');
-
--- --------------------------------------------------------
-
---
--- Table structure for table `sarana_telpon`
---
-
-CREATE TABLE IF NOT EXISTS `sarana_telpon` (
-  `id` int(11) NOT NULL AUTO_INCREMENT,
-  `kode_sarana` varchar(15) COLLATE latin1_general_ci NOT NULL,
-  `id_telp` varchar(15) COLLATE latin1_general_ci NOT NULL,
-  `kondisi` set('Rusak','Baik') COLLATE latin1_general_ci NOT NULL DEFAULT 'Baik',
-  `terhubung_internet` set('Tidak','Ya') COLLATE latin1_general_ci NOT NULL DEFAULT 'Tidak',
-  PRIMARY KEY (`id`),
-  KEY `sarana_barangkode_sarana` (`kode_sarana`),
-  KEY `sarana_barangnomor_barang` (`id_telp`)
-) ENGINE=MyISAM  DEFAULT CHARSET=latin1 COLLATE=latin1_general_ci AUTO_INCREMENT=5 ;
-
---
--- Dumping data for table `sarana_telpon`
---
-
-INSERT INTO `sarana_telpon` (`id`, `kode_sarana`, `id_telp`, `kondisi`, `terhubung_internet`) VALUES
-(3, 'srn002', 'tlp005', 'Rusak', 'Ya'),
-(2, 'srn002', 'tlp003', 'Baik', 'Tidak');
-
--- --------------------------------------------------------
-
---
--- Table structure for table `user`
---
-
-CREATE TABLE IF NOT EXISTS `user` (
-  `user` varchar(15) COLLATE latin1_general_ci NOT NULL,
-  `pass` varchar(35) COLLATE latin1_general_ci NOT NULL,
-  `nama` varchar(45) COLLATE latin1_general_ci NOT NULL,
-  `alamat` varchar(50) COLLATE latin1_general_ci NOT NULL,
-  PRIMARY KEY (`user`)
-) ENGINE=MyISAM DEFAULT CHARSET=latin1 COLLATE=latin1_general_ci;
-
---
--- Dumping data for table `user`
---
-
-INSERT INTO `user` (`user`, `pass`, `nama`, `alamat`) VALUES
-('admin', '21232f297a57a5a743894a0e4a801fc3', 'Hanani Fadilah', 'Banjarmasin');
+ALTER TABLE `pinjam_detail`
+  ADD CONSTRAINT `pinjam_detail_ibfk_4` FOREIGN KEY (`no_pinjam`) REFERENCES `pinjam` (`no_pinjam`) ON DELETE CASCADE ON UPDATE CASCADE,
+  ADD CONSTRAINT `pinjam_detail_ibfk_5` FOREIGN KEY (`no_inventaris`) REFERENCES `inventaris` (`no_inventaris`) ON DELETE NO ACTION ON UPDATE CASCADE;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
 /*!40101 SET CHARACTER_SET_RESULTS=@OLD_CHARACTER_SET_RESULTS */;
