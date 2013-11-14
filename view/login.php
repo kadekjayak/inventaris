@@ -10,28 +10,39 @@ include 'view/menu.inc';
         'content'=>''
     );
     $v=GetDataPost();
-    if($_SERVER['REQUEST_METHOD']=='GET') $url=$_SERVER['HTTP_REFERER'];
-
-if($_SERVER['REQUEST_METHOD']=='POST') {
-    if(isset($_POST['nip']) && isset($_POST['password'])){
-        $sql="SELECT NIP,nama FROM pegawai WHERE nip='$_POST[nip]' AND password='$_POST[password]'";
-        $result=mysqli_query($link,$sql);
-        echo mysqli_error($link);
-        if(mysqli_num_rows($result)<=1) {
-            $r=mysqli_fetch_row($result);
-            setcookie('nip',$r[0],time()+(60*60));
-            setcookie('user',$r[1],time()+(60*60));
-            $pdata['alert'].=makeAlert('Login Success');
-            header("Location: $url");
-        } else {
-            $pdata['alert'].=makeAlert('Invalid Login infomation','danger');   
-        }
-        
+    if($_SERVER['REQUEST_METHOD']=='GET') {
+        $url=isset($_SERVER['HTTP_REFERER']) ? $_SERVER['HTTP_REFERER'] : '';
     } else {
-        $pdata['alert'].=makeAlert('Incomplete field','danger');     
+        $url=$v['url'];  
     }
+     
+    $pdata['alert'].=makeAlert($url,'info');
+if($action!='logout') {
+    if($_SERVER['REQUEST_METHOD']=='POST') {
+        if(isset($_POST['nip']) && isset($_POST['password'])){
+            $sql="SELECT NIP,nama FROM pegawai WHERE nip='$_POST[nip]' AND password='$_POST[password]'";
+            $result=mysqli_query($link,$sql);
+            echo mysqli_error($link);
+            if(mysqli_num_rows($result)==1) {
+                $r=mysqli_fetch_row($result);
+                setcookie('nip',$r[0],time()+(60*60));
+                setcookie('user',$r[1],time()+(60*60));
+                $pdata['alert'].=makeAlert('Login Success');
+                if(!empty($url)) header("Location: $url");
+            } else {
+                $pdata['alert'].=makeAlert('Invalid Login infomation','danger');   
+            }
+            
+        } else {
+            $pdata['alert'].=makeAlert('Incomplete field','danger');     
+        }
+    }
+} else {
+    setcookie('user','Guest',time()+(60*60));
+    setcookie('nip',null,-1);
+    $pdata['alert'].=makeAlert('Signed Out','info');
+    if(!empty($url)) header("Location: $url");
 }
-
 
 
 $form=array(

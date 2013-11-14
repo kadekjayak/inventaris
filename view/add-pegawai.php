@@ -1,5 +1,6 @@
 <?php 
-	include 'view/menu.inc';
+if(isset($_COOKIE['nip'])) {	
+include 'view/menu.inc';
     $menu[1]['class']='active';
 	$pdata=array(
         'header'=>$header,
@@ -70,4 +71,7 @@
     
     $t=makePage($pdata,'main.php');
     echo $t;
+} else {
+    include 'login.php';
+}
 ?>

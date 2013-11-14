@@ -14,8 +14,8 @@
         ?>
         
             <div class="form-group <?php if($error) print "has-error";  ?> ">
-                <label class="col-md-2 control-label"><?php print $title; ?></label>
-                <div class="col-md-10">
+                <label class="col-lg-2 control-label"><?php print $title; ?></label>
+                <div class="col-lg-10">
                     <?php if($type=='select') { ?>
                         <select class="form-control" name="<?php print $name; ?>" <?php print $state; ?>>
                             <?php  foreach($value as $v) {
@@ -36,7 +36,7 @@
             <input type="hidden" value="<?php print $value; ?>" name="<?php print $name; ?>">
         <?php } } ?> 
         <div class="form-group">
-            <div class="col-md-offset-2 col-sm-10">
+            <div class="col-lg-offset-2 col-lg-10">
                 <button class="btn btn-primary" type="submit" >Submit</button>  
             </div>
         </div>

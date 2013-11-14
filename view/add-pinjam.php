@@ -1,4 +1,5 @@
 <?php 
+if(isset($_COOKIE['nip'])) {
 	include 'view/menu.inc';
     $menu[3]['class']='active';
 	$pdata=array(
@@ -45,7 +46,7 @@
 		'type'=>'text',
 		'value'=>isset($v['no_pinjam']) ? $v['no_pinjam'] : '',
         'name'=>'no_pinjam',
-        'state'=> ($action=='edit') ? 'disabled' : ''
+        'state'=> 'disabled'
 		),
 		1=>array(
 		'title'=>'Tanggal Pinjam',
@@ -56,7 +57,7 @@
         2=>array(
 		'title'=>'NIP',
 		'type'=>'text',
-        'value'=>isset($v['NIP']) ? $v['NIP'] : '',
+        'value'=>isset($v['NIP']) ? $v['NIP'] : $_COOKIE['nip'],
         'name'=>'NIP'    
 		)
 	);
@@ -66,4 +67,7 @@
     
     $t=makePage($pdata,'main.php');
     echo $t;
+} else {
+    include 'login.php';   
+}
 ?>

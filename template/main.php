@@ -58,7 +58,23 @@
                 <?php if(isset($pageData['menu'])) { ?>
                     <nav class="navbar navbar-default">
                         <?php print $pageData['menu']; ?>
-                        <p class="navbar-text navbar-right">Loged in as <a href="#" class="navbar-link"><?php print $_COOKIE['user']; ?></a></p>
+                        <ul class="nav navbar-nav navbar-right">
+                          <li class="dropdown">
+                            <a href="#" class="dropdown-toggle" data-toggle="dropdown"><?php print $_COOKIE['user']; ?> <b class="caret"></b></a>
+                            <ul class="dropdown-menu">
+                              <?php if($_COOKIE['user']!='Guest') {
+                                print '<li><a href="?view=login&action=logout">Logout</a></li>';
+                                
+                                } else {
+                                print '<li><a href="?view=login">Login</a></li>';
+                                }
+                                ?>
+                                <li><a href="#">Action</a></li>
+                              <li><a href="#">Another action</a></li>
+                              
+                            </ul>
+                          </li>
+                        </ul>
                     </nav>
                 <?php } ?>
                     <?php if(!empty($pageData['alert'])) print $pageData['alert']; ?>
